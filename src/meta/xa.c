@@ -217,7 +217,7 @@ fail:
 }
 
 
-#define XA_MAX_CHANNELS 128 /* usually 08-16, seen ~120 in Digimon Rumble Arena (PS1) */
+#define XA_MAX_CHANNELS 255 /* usually 08-16, seen ~120 in Digimon Rumble Arena (PS1) */
 
 typedef struct {
    uint32_t info;
@@ -288,11 +288,6 @@ static int xa_read_subsongs(STREAMFILE* sf, int target_subsong, uint32_t start, 
         if (xa_chan == 0xFF) {
             offset += sector_size;
             continue;
-        }
-
-        if (xa_chan >= XA_MAX_CHANNELS) {
-            VGM_LOG("XA: too many channels: %x\n", xa_chan);
-            goto fail;
         }
 
         //;VGM_ASSERT((xa_submode & 0x01), "XA: end of audio at %x\n", offset); /* rare, signals last sector [Tetris (CD-i), Langrisser V (PS1)] */
